@@ -2,7 +2,7 @@ import { askUser } from "./askUser.js";
 
 import { programData, saveData } from "./storage.js";
 
-import { Giveaway } from "./types.js";
+import { Giveaway, User } from "./types.js";
 
 import { askUserNewGiveawayData } from "./ui.js";
 
@@ -58,19 +58,62 @@ export const listGiveaways = (): void => {
   saveData();
 };
 
-export const deleteGiveaway = (number: number): void => {
-  number = number - 1;
+export const deleteGiveaway = (giveawayNumber: number): void => {
+  giveawayNumber = giveawayNumber - 1;
   for (const position in programData.giveaways) {
-    if (number < 0 || number > programData.giveaways.length) {
+    if (giveawayNumber < 0 || giveawayNumber > programData.giveaways.length) {
       console.log(
         "El número indicado no coincide con ningún sorteo disponible."
       );
-    } else if (number === Number(position)) {
+    } else if (giveawayNumber === Number(position)) {
       programData.giveaways.splice(Number(position), 1);
       console.log(
         `Sorteo "${programData.giveaways[position].name}" eliminado correctamente.`
       );
       saveData();
     }
+  }
+};
+
+export const enterGiveaway = (giveawayNumber: number): void => {
+  giveawayNumber = giveawayNumber - 1;
+  for (const position in programData.giveaways) {
+    if (giveawayNumber < 0 || giveawayNumber > programData.giveaways.length) {
+      console.log(
+        "El número indicado no coincide con ningún sorteo disponible."
+      );
+    } else if (giveawayNumber === Number(position)) {
+      const newParticipant = programData.users.find(
+        (user) => user.email === programData.userEmail
+      );
+      programData.giveaways
+        .at(Number(position))
+        ?.participants.push(newParticipant!);
+      console.log("Te has inscrito correctamente al sorteo seleccionado.");
+      saveData();
+    }
+  }
+};
+
+export const listUserGiveaways = (): void => {
+  const giveaways = programData.giveaways;
+  const userGiveaways = giveaways.filter((giveaway) =>
+    giveaway.participants.some(
+      (participant) => participant.email === programData.userEmail
+    )
+  );
+  if (userGiveaways.length) {
+    console.log(
+      `Estás inscrit@ en el/los siguiente/s ${userGiveaways!.length} sorteo/s:`
+    );
+    userGiveaways.forEach((userGiveaway, index) => {
+      console.log(
+        `${index + 1}. Sorteo de un/a ${userGiveaway.name} en ${
+          userGiveaway.socialNetwork
+        }.`
+      );
+    });
+  } else {
+    console.log("No estás inscrit@ en ningún sorteo.");
   }
 };
