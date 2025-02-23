@@ -1,11 +1,11 @@
 import { askUser } from "./askUser.js";
-// import {
-// createGiveaway
-// , deleteGiveaway
-// , enterGiveaway
-// , listGiveaways
-// , listUserGiveaways
-// } from "./giveaways.js";
+import {
+  createGiveaway,
+  deleteGiveaway,
+  // , enterGiveaway
+  listGiveaways,
+  // , listUserGiveaways
+} from "./giveaways.js";
 import { programData } from "./storage.js";
 
 export const askUserNewGiveawayData = (): {
@@ -51,12 +51,12 @@ export const processMainMenuOption = (option: number): void => {
 
   switch (option) {
     case 1:
-      // listGiveaways();
+      listGiveaways();
       printMainMenu();
       break;
     case 2:
       if (isAdmin) {
-        // createGiveaway();
+        createGiveaway();
         printMainMenu();
       } else {
         const giveawayNumber = askUser("¿En qué sorteo quieres inscribirte? ");
@@ -67,7 +67,7 @@ export const processMainMenuOption = (option: number): void => {
     case 3:
       if (isAdmin) {
         const giveawayNumber = askUser("¿Qué sorteo quieres eliminar? ");
-        // deleteGiveaway(+giveawayNumber);
+        deleteGiveaway(+giveawayNumber);
         printMainMenu();
       } else {
         // listUserGiveaways();
