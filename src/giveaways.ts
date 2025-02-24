@@ -59,18 +59,21 @@ export const listGiveaways = (): void => {
 };
 
 export const deleteGiveaway = (giveawayNumber: number): void => {
-  giveawayNumber = giveawayNumber - 1;
-  for (const position in programData.giveaways) {
-    if (giveawayNumber < 0 || giveawayNumber > programData.giveaways.length) {
-      console.log(
-        "El número indicado no coincide con ningún sorteo disponible."
-      );
-    } else if (giveawayNumber === Number(position)) {
-      programData.giveaways.splice(Number(position), 1);
-      console.log(
-        `Sorteo "${programData.giveaways[position].name}" eliminado correctamente.`
-      );
-      saveData();
+  const giveawayPosition = giveawayNumber - 1;
+  const giveaways = programData.giveaways;
+  const toRemoveGiveaway = giveaways[giveawayPosition];
+
+  if (giveawayNumber > giveaways.length || giveawayNumber <= 0) {
+    console.log("El número indicado no coincide con ningún sorteo disponible.");
+  } else {
+    for (let position = 0; position <= giveaways.length; position++) {
+      if (giveawayPosition === position) {
+        giveaways.splice(position, 1);
+        saveData();
+        console.log(
+          `Sorteo "${toRemoveGiveaway.name!}" eliminado correctamente.`
+        );
+      }
     }
   }
 };
