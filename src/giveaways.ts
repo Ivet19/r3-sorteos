@@ -79,22 +79,22 @@ export const deleteGiveaway = (giveawayNumber: number): void => {
 };
 
 export const enterGiveaway = (giveawayNumber: number): void => {
-  giveawayNumber = giveawayNumber - 1;
-  for (const position in programData.giveaways) {
-    if (giveawayNumber < 0 || giveawayNumber > programData.giveaways.length) {
-      console.log(
-        "El número indicado no coincide con ningún sorteo disponible."
-      );
-    } else if (giveawayNumber === Number(position)) {
-      const newParticipant = programData.users.find(
-        (user) => user.email === programData.userEmail
-      );
-      programData.giveaways
-        .at(Number(position))
-        ?.participants.push(newParticipant!);
-      console.log("Te has inscrito correctamente al sorteo seleccionado.");
-      saveData();
+  const giveawayPosition = giveawayNumber - 1;
+  if (giveawayNumber <= 0 || giveawayNumber > programData.giveaways.length) {
+    console.log("El número indicado no coincide con ningún sorteo disponible.");
+  } else {
+    for (const position in programData.giveaways) {
+      if (giveawayPosition === Number(position)) {
+        const newParticipant = programData.users.find(
+          (user) => user.email === programData.userEmail
+        );
+        programData.giveaways
+          .at(Number(position))
+          ?.participants.push(newParticipant!);
+        saveData();
+      }
     }
+    console.log("Te has inscrito correctamente al sorteo seleccionado.");
   }
 };
 
