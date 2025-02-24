@@ -13,9 +13,11 @@ export const loginUser = (email: string, password: string): void => {
   if (isRegisteredUser) {
     programData.userEmail = email;
     const adminUser = programData.users.find((user) => user.isAdmin);
-    email === adminUser?.email && password === adminUser.password
-      ? (programData.isAdmin = true)
-      : (programData.isAdmin = false);
+    if (email === adminUser?.email && password === adminUser.password) {
+      programData.isAdmin = true;
+    } else {
+      programData.isAdmin = false;
+    }
     console.log("Bienvenid@.");
     saveData();
   } else {
